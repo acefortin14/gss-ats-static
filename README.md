@@ -1,42 +1,24 @@
-# GSS ATS - Static Vercel Version (No npm Build)
+# GSS HR Talent Solutions Inc Applicant Tracking System
 
-This version avoids the Vercel `npm install` error because it does not use package.json, npm, Vite, or a build step.
+Static no-build ATS with Supabase backend and simple `config.js` setup.
 
-## Included
-- `index.html` - complete ATS web application
-- `api/config.js` - Vercel serverless config endpoint that reads environment variables
-- `gss-logo.png` - company logo
-- `supabase_schema.sql` - database schema, roles, clients, requirements and reports
+## Features
+- Multi-user login via Supabase Auth
+- Roles: recruiter, recruiter_manager, admin
+- Clients module
+- Requirements / job openings module
+- Candidate tracking and pipeline status
+- Executive dashboard
+- Individual recruiter performance
+- Weekly and monthly reports
+- CSV export
 
-## Supabase setup
-1. Create a Supabase project.
-2. Go to SQL Editor.
-3. Open `supabase_schema.sql`.
-4. Copy all SQL and run it.
-5. Get your Project URL and anon/publishable key.
-
-## Vercel environment variables
-Add exactly these two variables under Project Settings > Environment Variables:
-
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
-
-Use your actual Supabase Project URL and anon/publishable public key. Do not use the service role key.
-
-## Vercel deployment settings
-Use this static version as a fresh Vercel project or update the current project settings:
-
-- Framework Preset: Other
-- Install Command: leave blank
-- Build Command: leave blank
-- Output Directory: leave blank or use `.`
-
-If Vercel still runs npm, delete any old `package.json` and `package-lock.json` from your GitHub repository or create a new repository using only the files from this static package.
-
-## First admin account
-1. Open the live ATS.
-2. Sign up your admin user.
-3. In Supabase SQL Editor, run:
+## Setup
+1. Run `supabase_schema.sql` in Supabase SQL Editor.
+2. Edit `config.js` and place your Supabase Project URL and anon/public/publishable key.
+3. Upload files to GitHub.
+4. Deploy on Vercel with Framework Preset: Other, no install command, no build command.
+5. First user signs up, then update their role to admin in Supabase SQL Editor:
 
 ```sql
 update public.profiles
@@ -44,9 +26,4 @@ set role = 'admin'
 where email = 'your.email@gsshrsolutions.com';
 ```
 
-Then refresh the ATS and open User Management.
-
-## Roles
-- `recruiter` - add candidates and view own pipeline
-- `recruiter_manager` - manage clients and requirements, view team reports
-- `admin` - full access including user management
+Do not use your Supabase service_role key in `config.js`.
