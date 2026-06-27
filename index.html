@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GSS HR Talent Solutions Inc ATS</title>
+  <style>
+    :root{--blue:#172b6b;--gold:#d5a846;--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--border:#e4e7ec;--danger:#b42318;--ok:#067647;--warn:#b54708}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    header{background:#fff;border-bottom:1px solid var(--border);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px;position:sticky;top:0;z-index:5}
+    .brand{display:flex;align-items:center;gap:14px}.brand img{height:54px;max-width:260px;object-fit:contain}.brand h1{font-size:20px;margin:0;color:var(--blue)}.brand p{margin:3px 0 0;color:var(--muted);font-size:12px}
+    .userbar{text-align:right;font-size:13px;color:var(--muted)}.userbar b{color:var(--blue)}
+    main{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 84px)}
+    aside{background:#fff;border-right:1px solid var(--border);padding:18px;position:sticky;top:84px;height:calc(100vh - 84px);overflow:auto}
+    .nav button{width:100%;padding:12px 13px;border:0;background:transparent;text-align:left;border-radius:12px;margin-bottom:6px;cursor:pointer;color:#344054;font-weight:700}.nav button.active,.nav button:hover{background:#eef2ff;color:var(--blue)}
+    .content{padding:22px;overflow:auto}.topline{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:16px}.topline h2{margin:0;color:var(--blue)}.topline p{margin:6px 0 0;color:var(--muted)}
+    .grid{display:grid;gap:16px}.grid.cards{grid-template-columns:repeat(4,minmax(160px,1fr))}.grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:0 4px 16px rgba(16,24,40,.04)}.card h3{margin:0 0 12px;color:var(--blue)}.metric{font-size:30px;font-weight:900;color:var(--blue);margin:8px 0}.metric small{font-size:13px;color:var(--muted);font-weight:700}
+    .btn{border:0;border-radius:11px;padding:10px 14px;font-weight:800;cursor:pointer;background:var(--blue);color:#fff}.btn.secondary{background:#fff;color:var(--blue);border:1px solid var(--border)}.btn.gold{background:var(--gold);color:#101828}.btn.danger{background:var(--danger)}.btn:disabled{opacity:.55;cursor:not-allowed}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    input,select,textarea{width:100%;border:1px solid var(--border);border-radius:11px;padding:10px 12px;font:inherit;background:#fff}textarea{min-height:82px;resize:vertical}label{display:block;font-size:12px;font-weight:800;color:#475467;margin-bottom:6px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.formgrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.full{grid-column:1/-1}
+    table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left}th{background:#f8fafc;color:#344054;font-size:12px;position:sticky;top:0}.tablewrap{max-height:480px;overflow:auto;border:1px solid var(--border);border-radius:14px;background:#fff}
+    .badge{display:inline-block;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800;background:#eef2ff;color:var(--blue)}.badge.ok{background:#ecfdf3;color:var(--ok)}.badge.warn{background:#fffaeb;color:var(--warn)}.badge.bad{background:#fef3f2;color:var(--danger)}
+    .notice{padding:12px 14px;border-radius:14px;background:#fffaeb;border:1px solid #fedf89;color:#7a2e0e;margin-bottom:14px}.notice.error{background:#fef3f2;border-color:#fecdca;color:#7a271a}.notice.ok{background:#ecfdf3;border-color:#abefc6;color:#074d31}
+    .login{max-width:480px;margin:56px auto}.login .brand{justify-content:center;text-align:center;display:block}.login img{height:86px;max-width:360px}.hidden{display:none!important}.small{font-size:12px;color:var(--muted)}.searchrow{display:grid;grid-template-columns:1fr 180px 180px;gap:10px;margin-bottom:12px}
+    @media(max-width:920px){main{grid-template-columns:1fr}aside{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border)}.grid.cards,.grid.two,.grid.three,.formgrid,.formgrid.three,.searchrow{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}.userbar{text-align:left}}
+  </style>
+</head>
+<body>
+  <div id="authScreen" class="login">
+    <div class="card">
+      <div class="brand">
+        <img src="gss-logo.png" alt="GSS HR Talent Solutions Inc" />
+        <h1>Applicant Tracking System</h1>
+        <p>Multi-user recruitment dashboard</p>
+      </div>
+      <div id="configNotice" class="notice error hidden"></div>
+      <div id="authNotice" class="notice hidden"></div>
+      <div class="grid" style="gap:12px;margin-top:18px">
+        <div><label>Full Name</label><input id="authName" placeholder="For sign up only" /></div>
+        <div><label>Email</label><input id="authEmail" type="email" placeholder="name@gsshrsolutions.com" /></div>
+        <div><label>Password</label><input id="authPassword" type="password" placeholder="Minimum 6 characters" /></div>
+        <div class="actions">
+          <button class="btn" id="loginBtn">Login</button>
+          <button class="btn secondary" id="signupBtn">Sign Up</button>
+        </div>
+        <p class="small">First user should sign up, then run the admin SQL from the guide in Supabase SQL Editor.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="app" class="hidden">
+    <header>
+      <div class="brand"><img src="gss-logo.png" alt="GSS logo"><div><h1>GSS ATS</h1><p>Clients • Requirements • Candidates • Reports</p></div></div>
+      <div class="userbar"><div>Signed in as <b id="userEmail"></b></div><div><span id="userName"></span> • <span id="userRole"></span></div><button class="btn secondary" id="logoutBtn" style="margin-top:8px">Logout</button></div>
+    </header>
+    <main>
+      <aside><div class="nav" id="nav"></div><hr style="border:0;border-top:1px solid var(--border);margin:16px 0"><p class="small">Recruiter: add candidates and track own submissions.<br>Recruiter Manager/Admin: manage clients and requirements, view team reports.<br>Admin: manage user roles.</p></aside>
+      <section class="content">
+        <div id="globalNotice" class="notice hidden"></div>
+        <section id="view-dashboard"></section>
+        <section id="view-candidates" class="hidden"></section>
+        <section id="view-clients" class="hidden"></section>
+        <section id="view-requirements" class="hidden"></section>
+        <section id="view-reports" class="hidden"></section>
+        <section id="view-users" class="hidden"></section>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.4';
+
+    const $ = (id) => document.getElementById(id);
+    const fmt = (n) => Number(n || 0).toLocaleString();
+    const money = (n) => Number(n || 0).toLocaleString(undefined,{maximumFractionDigits:0});
+    const todayISO = () => new Date().toISOString().slice(0,10);
+    const startOfWeek = () => { const d=new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day); d.setHours(0,0,0,0); return d.toISOString(); };
+    const startOfMonth = () => { const d=new Date(); d.setDate(1); d.setHours(0,0,0,0); return d.toISOString(); };
+    const escapeHtml = (v) => String(v ?? '').replace(/[&<>'"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));
+    const statusClass = (s) => ['Hired','Offered'].includes(s)?'ok':(['Rejected','Withdrawn'].includes(s)?'bad':(['L1 Interview','L2 Interview','Final Interview','Client Review'].includes(s)?'warn':''));
+
+    let supabase, session, profile;
+    let clients=[], positions=[], profiles=[], applications=[];
+    const statuses = ['Sourced','Submitted','Client Review','L1 Interview','L2 Interview','Final Interview','Offered','Hired','Rejected','Withdrawn'];
+    const sources = ['Referral','Job Portal','Agency','Direct','LinkedIn','Facebook','Other'];
+    const tabs = [
+      ['dashboard','Executive Dashboard'],['candidates','Candidates'],['clients','Clients'],['requirements','Requirements'],['reports','Weekly / Monthly Reports'],['users','User Management']
+    ];
+
+    async function init(){
+      try {
+        const config = await fetch('/api/config', {cache:'no-store'}).then(r=>r.json());
+        if(!config.supabaseUrl || !config.supabaseAnonKey){
+          $('configNotice').classList.remove('hidden');
+          $('configNotice').innerHTML = 'Missing Vercel environment variables. Add <b>VITE_SUPABASE_URL</b> and <b>VITE_SUPABASE_ANON_KEY</b>, then redeploy.';
+          return;
+        }
+        supabase = createClient(config.supabaseUrl, config.supabaseAnonKey);
+        const res = await supabase.auth.getSession();
+        session = res.data.session;
+        if(session) await openApp();
+      } catch(e){
+        $('configNotice').classList.remove('hidden');
+        $('configNotice').textContent = 'Unable to load ATS configuration. Check Vercel deployment and environment variables.';
+      }
+    }
+
+    function notice(msg, type=''){ const el=$('globalNotice'); el.className='notice '+type; el.innerHTML=msg; el.classList.remove('hidden'); setTimeout(()=>el.classList.add('hidden'),4500); }
+    function authNotice(msg, type=''){ const el=$('authNotice'); el.className='notice '+type; el.innerHTML=msg; el.classList.remove('hidden'); }
+
+    $('loginBtn').onclick = async () => {
+      const email=$('authEmail').value.trim(), password=$('authPassword').value;
+      const {data,error}=await supabase.auth.signInWithPassword({email,password});
+      if(error) return authNotice(error.message,'error');
+      session=data.session; await openApp();
+    };
+    $('signupBtn').onclick = async () => {
+      const email=$('authEmail').value.trim(), password=$('authPassword').value, full_name=$('authName').value.trim();
+      const {data,error}=await supabase.auth.signUp({email,password,options:{data:{full_name}}});
+      if(error) return authNotice(error.message,'error');
+      if(data.session){ session=data.session; await openApp(); } else authNotice('Sign-up created. Please check email confirmation if Supabase requires it.','ok');
+    };
+    $('logoutBtn').onclick = async()=>{ await supabase.auth.signOut(); location.reload(); };
+
+    async function openApp(){
+      $('authScreen').classList.add('hidden'); $('app').classList.remove('hidden');
+      $('userEmail').textContent = session.user.email;
+      await loadProfile(); buildNav(); await loadAll(); showTab('dashboard');
+    }
+    async function loadProfile(){
+      let {data} = await supabase.from('profiles').select('*').eq('id', session.user.id).maybeSingle();
+      if(!data){ await supabase.from('profiles').insert({id:session.user.id,email:session.user.email,full_name:session.user.email.split('@')[0],role:'recruiter'}); const r=await supabase.from('profiles').select('*').eq('id', session.user.id).maybeSingle(); data=r.data; }
+      profile=data || {id:session.user.id,email:session.user.email,full_name:'User',role:'recruiter'};
+      $('userName').textContent = profile.full_name || 'User'; $('userRole').textContent = profile.role || 'recruiter';
+    }
+    const isManager = () => ['admin','recruiter_manager'].includes(profile?.role);
+    const isAdmin = () => profile?.role === 'admin';
+
+    function buildNav(){
+      $('nav').innerHTML = tabs.filter(t=> t[0] !== 'users' || isAdmin()).map(([id,label])=>`<button data-tab="${id}" id="nav-${id}">${label}</button>`).join('');
+      document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+    }
+    function showTab(tab){
+      tabs.forEach(([id])=>{ const v=$('view-'+id); if(v) v.classList.toggle('hidden',id!==tab); const n=$('nav-'+id); if(n) n.classList.toggle('active',id===tab); });
+      if(tab==='dashboard') renderDashboard(); if(tab==='candidates') renderCandidates(); if(tab==='clients') renderClients(); if(tab==='requirements') renderRequirements(); if(tab==='reports') renderReports(); if(tab==='users') renderUsers();
+    }
+
+    async function loadAll(){
+      const [c,p,u,a] = await Promise.all([
+        supabase.from('clients').select('*').order('name'),
+        supabase.from('positions').select('*, clients(name)').order('created_at',{ascending:false}),
+        supabase.from('profiles').select('*').order('full_name'),
+        supabase.from('vw_applications_detailed').select('*').order('created_at',{ascending:false})
+      ]);
+      clients=c.data||[]; positions=p.data||[]; profiles=u.data||[]; applications=a.data||[];
+      if(c.error) notice(c.error.message,'error'); if(p.error) notice(p.error.message,'error'); if(a.error) notice(a.error.message,'error');
+    }
+
+    function renderDashboard(){
+      const total = applications.length, submitted=applications.filter(x=>['Submitted','Client Review'].includes(x.status)).length, interviews=applications.filter(x=>['L1 Interview','L2 Interview','Final Interview'].includes(x.status)).length, offers=applications.filter(x=>x.status==='Offered').length, hires=applications.filter(x=>x.status==='Hired').length;
+      const week = applications.filter(x=>new Date(x.created_at)>=new Date(startOfWeek())).length;
+      const month = applications.filter(x=>new Date(x.created_at)>=new Date(startOfMonth())).length;
+      const byClient = groupBy(applications,'client_name');
+      const byRecruiter = groupBy(applications,'recruiter_name');
+      $('view-dashboard').innerHTML = `
+        <div class="topline"><div><h2>Executive Dashboard</h2><p>Overall recruitment performance, pipeline and client movement.</p></div><button class="btn secondary" onclick="window.refreshData()">Refresh</button></div>
+        <div class="grid cards">
+          ${metric('Total Candidates',total)}${metric('This Week',week)}${metric('This Month',month)}${metric('Submitted',submitted)}${metric('Interviews',interviews)}${metric('Offers',offers)}${metric('Hires',hires)}${metric('Open Requirements',positions.filter(p=>p.status==='Open').length)}
+        </div>
+        <div class="grid two" style="margin-top:16px">
+          <div class="card"><h3>Pipeline Status</h3>${statusBars()}</div>
+          <div class="card"><h3>Client Dashboard</h3>${smallTable(Object.entries(byClient).map(([k,v])=>[k||'No client',v.length,v.filter(x=>x.status==='Hired').length]),['Client','Candidates','Hired'])}</div>
+          <div class="card"><h3>Recruiter Performance</h3>${smallTable(Object.entries(byRecruiter).map(([k,v])=>[k||'Unassigned',v.length,v.filter(x=>x.status==='Submitted'||x.status==='Client Review').length,v.filter(x=>x.status==='Hired').length]),['Recruiter','Total','Submitted','Hired'])}</div>
+          <div class="card"><h3>Requirements Summary</h3>${smallTable(positions.slice(0,8).map(p=>[p.clients?.name||'',p.title,p.openings,p.status]),['Client','Requirement','HC','Status'])}</div>
+        </div>`;
+    }
+    function metric(label,value){ return `<div class="card"><div class="small">${label}</div><div class="metric">${fmt(value)}</div></div>`; }
+    function statusBars(){ const max=Math.max(1,...statuses.map(s=>applications.filter(a=>a.status===s).length)); return statuses.map(s=>{const n=applications.filter(a=>a.status===s).length; return `<div style="margin:9px 0"><div style="display:flex;justify-content:space-between"><b>${s}</b><span>${n}</span></div><div style="height:9px;background:#eef2ff;border-radius:999px;overflow:hidden"><div style="width:${(n/max)*100}%;height:9px;background:var(--blue)"></div></div></div>`}).join(''); }
+    function groupBy(arr,key){ return arr.reduce((m,x)=>{const k=x[key]||'';(m[k]=m[k]||[]).push(x);return m;},{}); }
+    function smallTable(rows,heads){ return `<div class="tablewrap" style="max-height:300px"><table><thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${escapeHtml(c)}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${heads.length}">No records yet</td></tr>`}</tbody></table></div>`; }
+
+    function renderCandidates(){
+      $('view-candidates').innerHTML = `
+        <div class="topline"><div><h2>Candidates</h2><p>Add candidates and endorse them to requirements.</p></div><div class="actions"><button class="btn gold" onclick="window.exportCsv('applications')">Export CSV</button><button class="btn secondary" onclick="window.refreshData()">Refresh</button></div></div>
+        <div class="card"><h3>Add Candidate / Application</h3><form id="candidateForm" class="formgrid three">
+          ${input('candidateName','Candidate Name *')}${input('candidateEmail','Email')}${input('candidatePhone','Mobile')}
+          ${select('candidateSource','Source',sources)}${input('candidateSkills','Technical Skills')}${input('candidateExperience','Relevant Experience Years','number','0.01')}
+          ${input('candidateCurrentSalary','Current Salary','number','1')}${input('candidateAskingSalary','Asking Salary','number','1')}${input('candidateLocation','Current Location')}
+          ${selectPositions('candidatePosition','Requirement *')}${select('candidateStatus','Status',statuses)}${input('candidateInterview','Interview Date','datetime-local')}
+          ${textarea('candidateRemarks','Remarks / Summary','full')}
+          <div class="full actions"><button class="btn" type="submit">Save Candidate</button></div>
+        </form></div>
+        <div class="card" style="margin-top:16px"><h3>Candidate Pipeline</h3>${renderApplicationTable(applications)}</div>`;
+      $('candidateForm').onsubmit=saveCandidate;
+    }
+    function renderApplicationTable(rows){
+      return `<div class="tablewrap"><table><thead><tr><th>Date</th><th>Candidate</th><th>Client</th><th>Requirement</th><th>Recruiter</th><th>Status</th><th>Salary</th><th>Remarks</th></tr></thead><tbody>${rows.map(a=>`<tr><td>${escapeHtml((a.created_at||'').slice(0,10))}</td><td><b>${escapeHtml(a.candidate_name)}</b><br><span class="small">${escapeHtml(a.email||'')} ${escapeHtml(a.phone||'')}</span></td><td>${escapeHtml(a.client_name)}</td><td>${escapeHtml(a.position_title)}</td><td>${escapeHtml(a.recruiter_name)}</td><td><span class="badge ${statusClass(a.status)}">${escapeHtml(a.status)}</span></td><td>₱${money(a.asking_salary)}</td><td>${escapeHtml(a.remarks||'')}</td></tr>`).join('')||'<tr><td colspan="8">No candidates yet</td></tr>'}</tbody></table></div>`;
+    }
+    async function saveCandidate(e){
+      e.preventDefault();
+      const position_id=$('candidatePosition').value;
+      if(!$('candidateName').value.trim() || !position_id) return notice('Candidate name and requirement are required.','error');
+      const cPayload={full_name:$('candidateName').value.trim(),email:$('candidateEmail').value.trim()||null,phone:$('candidatePhone').value.trim()||null,source:$('candidateSource').value,skills:$('candidateSkills').value.trim()||null,overall_experience_years:num('candidateExperience'),current_salary:num('candidateCurrentSalary'),asking_salary:num('candidateAskingSalary'),current_location:$('candidateLocation').value.trim()||null,created_by:session.user.id};
+      const {data:c,error:ce}=await supabase.from('candidates').insert(cPayload).select().single(); if(ce) return notice(ce.message,'error');
+      const aPayload={candidate_id:c.id,position_id,recruiter_id:session.user.id,status:$('candidateStatus').value,stage:$('candidateStatus').value,relevant_experience_years:num('candidateExperience'),interview_date:$('candidateInterview').value?new Date($('candidateInterview').value).toISOString():null,remarks:$('candidateRemarks').value.trim()||null,endorsed_at:new Date().toISOString()};
+      const {error:ae}=await supabase.from('applications').insert(aPayload); if(ae) return notice(ae.message,'error');
+      notice('Candidate saved successfully.','ok'); await loadAll(); renderCandidates(); renderDashboard();
+    }
+
+    function renderClients(){
+      const can=isManager();
+      $('view-clients').innerHTML = `
+        <div class="topline"><div><h2>Clients</h2><p>Client database and priority tracker.</p></div><button class="btn secondary" onclick="window.refreshData()">Refresh</button></div>
+        ${can?`<div class="card"><h3>Add Client</h3><form id="clientForm" class="formgrid three">${input('clientName','Client Name *')}${input('clientIndustry','Industry')}${input('clientContact','Contact Person')}${input('clientEmail','Contact Email')}${select('clientPriority','Priority',['High','Medium','Low'])}${select('clientStatus','Status',['Active','Inactive'])}${textarea('clientNotes','Notes','full')}<div class="full actions"><button class="btn" type="submit">Save Client</button></div></form></div>`:`<div class="notice">Only Recruiter Manager and Admin can create or update clients.</div>`}
+        <div class="card" style="margin-top:16px"><h3>Client List</h3>${smallTable(clients.map(c=>[c.name,c.industry,c.priority,c.status,c.contact_person||'',c.notes||'']),['Client','Industry','Priority','Status','Contact','Notes'])}</div>`;
+      if(can) $('clientForm').onsubmit=saveClient;
+    }
+    async function saveClient(e){ e.preventDefault(); const payload={name:$('clientName').value.trim(),industry:$('clientIndustry').value.trim()||null,contact_person:$('clientContact').value.trim()||null,contact_email:$('clientEmail').value.trim()||null,priority:$('clientPriority').value,status:$('clientStatus').value,notes:$('clientNotes').value.trim()||null}; if(!payload.name) return notice('Client name is required.','error'); const {error}=await supabase.from('clients').insert(payload); if(error) return notice(error.message,'error'); notice('Client saved.','ok'); await loadAll(); renderClients(); }
+
+    function renderRequirements(){
+      const can=isManager();
+      $('view-requirements').innerHTML = `
+        <div class="topline"><div><h2>Requirements / Job Orders</h2><p>Track hiring requirements per client.</p></div><button class="btn secondary" onclick="window.refreshData()">Refresh</button></div>
+        ${can?`<div class="card"><h3>Add Requirement</h3><form id="reqForm" class="formgrid three">${selectClients('reqClient','Client *')}${input('reqTitle','Position Title *')}${input('reqDept','Department')}${input('reqOpenings','Openings','number','1')}${input('reqSalaryMin','Salary Min','number','1')}${input('reqSalaryMax','Salary Max','number','1')}${select('reqWorkSetup','Work Setup',['Hybrid','Onsite','Remote'])}${input('reqLocation','Location')}${select('reqStatus','Status',['Open','On Hold','Closed'])}${textarea('reqSummary','JD Summary','full')}${textarea('reqSkills','Must Have Skills','full')}<div class="full actions"><button class="btn" type="submit">Save Requirement</button></div></form></div>`:`<div class="notice">Only Recruiter Manager and Admin can create or update requirements.</div>`}
+        <div class="card" style="margin-top:16px"><h3>Requirement List</h3>${smallTable(positions.map(p=>[p.clients?.name||'',p.title,p.openings,p.status,p.work_setup,p.location,`₱${money(p.salary_min)} - ₱${money(p.salary_max)}`,p.must_have_skills||'']),['Client','Position','HC','Status','Setup','Location','Salary','Skills'])}</div>`;
+      if(can) $('reqForm').onsubmit=saveRequirement;
+    }
+    async function saveRequirement(e){ e.preventDefault(); const payload={client_id:$('reqClient').value,title:$('reqTitle').value.trim(),department:$('reqDept').value.trim()||null,openings:Number($('reqOpenings').value||1),salary_min:num('reqSalaryMin'),salary_max:num('reqSalaryMax'),work_setup:$('reqWorkSetup').value,location:$('reqLocation').value.trim()||null,status:$('reqStatus').value,jd_summary:$('reqSummary').value.trim()||null,must_have_skills:$('reqSkills').value.trim()||null,created_by:session.user.id}; if(!payload.client_id||!payload.title) return notice('Client and position title are required.','error'); const {error}=await supabase.from('positions').insert(payload); if(error) return notice(error.message,'error'); notice('Requirement saved.','ok'); await loadAll(); renderRequirements(); }
+
+    function renderReports(){
+      const monthRows = summarize(applications, 'month'); const weekRows = summarize(applications, 'week'); const individual = summarizeRecruiter(applications);
+      $('view-reports').innerHTML = `
+        <div class="topline"><div><h2>Weekly and Monthly Reports</h2><p>Export reports for management review.</p></div><div class="actions"><button class="btn gold" onclick="window.exportCsv('weekly')">Export Weekly</button><button class="btn gold" onclick="window.exportCsv('monthly')">Export Monthly</button><button class="btn secondary" onclick="window.refreshData()">Refresh</button></div></div>
+        <div class="grid two"><div class="card"><h3>Weekly Report</h3>${smallTable(weekRows,['Week','Client','Requirement','Recruiter','Total','Submitted','Interviews','Offers','Hires'])}</div><div class="card"><h3>Monthly Report</h3>${smallTable(monthRows,['Month','Client','Requirement','Recruiter','Total','Submitted','Interviews','Offers','Hires'])}</div></div>
+        <div class="card" style="margin-top:16px"><h3>Individual Recruiter Report</h3>${smallTable(individual,['Recruiter','Total','Sourced','Submitted','Interviews','Offers','Hires','Rejected','Hire Rate'])}</div>`;
+    }
+    function summarize(rows,type){ const map={}; rows.forEach(a=>{ const d=new Date(a.created_at); const keyDate=type==='month'?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`:a.week_start||new Date(d.setDate(d.getDate()-((d.getDay()+6)%7))).toISOString().slice(0,10); const k=[keyDate,a.client_name,a.position_title,a.recruiter_name].join('|'); map[k]=map[k]||{date:keyDate,client:a.client_name,position:a.position_title,recruiter:a.recruiter_name,total:0,sub:0,int:0,off:0,hire:0}; const m=map[k]; m.total++; if(['Submitted','Client Review'].includes(a.status))m.sub++; if(['L1 Interview','L2 Interview','Final Interview'].includes(a.status))m.int++; if(a.status==='Offered')m.off++; if(a.status==='Hired')m.hire++; }); return Object.values(map).map(x=>[x.date,x.client,x.position,x.recruiter,x.total,x.sub,x.int,x.off,x.hire]); }
+    function summarizeRecruiter(rows){ const m={}; rows.forEach(a=>{ const k=a.recruiter_name||'Unassigned'; m[k]=m[k]||{t:0,s:0,sub:0,i:0,o:0,h:0,r:0}; const x=m[k]; x.t++; if(a.status==='Sourced')x.s++; if(['Submitted','Client Review'].includes(a.status))x.sub++; if(['L1 Interview','L2 Interview','Final Interview'].includes(a.status))x.i++; if(a.status==='Offered')x.o++; if(a.status==='Hired')x.h++; if(a.status==='Rejected')x.r++; }); return Object.entries(m).map(([k,x])=>[k,x.t,x.s,x.sub,x.i,x.o,x.h,x.r,`${x.t?Math.round((x.h/x.t)*100):0}%`]); }
+
+    function renderUsers(){
+      if(!isAdmin()) return;
+      $('view-users').innerHTML = `<div class="topline"><div><h2>User Management</h2><p>Admin can change user role and active status.</p></div><button class="btn secondary" onclick="window.refreshData()">Refresh</button></div><div class="card"><h3>Users</h3><div class="tablewrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Active</th><th>Action</th></tr></thead><tbody>${profiles.map(u=>`<tr><td>${escapeHtml(u.full_name)}</td><td>${escapeHtml(u.email)}</td><td><select id="role-${u.id}">${['recruiter','recruiter_manager','admin'].map(r=>`<option ${u.role===r?'selected':''}>${r}</option>`).join('')}</select></td><td><select id="active-${u.id}"><option value="true" ${u.is_active?'selected':''}>Active</option><option value="false" ${!u.is_active?'selected':''}>Inactive</option></select></td><td><button class="btn secondary" onclick="window.updateUser('${u.id}')">Save</button></td></tr>`).join('')}</tbody></table></div></div>`;
+    }
+    window.updateUser = async(id)=>{ const role=$('role-'+id).value; const is_active=$('active-'+id).value==='true'; const {error}=await supabase.from('profiles').update({role,is_active}).eq('id',id); if(error) return notice(error.message,'error'); notice('User updated.','ok'); await loadAll(); renderUsers(); };
+
+    function input(id,label,type='text',step=''){return `<div><label for="${id}">${label}</label><input id="${id}" type="${type}" ${step?`step="${step}"`:''}></div>`}
+    function textarea(id,label,cls=''){return `<div class="${cls}"><label for="${id}">${label}</label><textarea id="${id}"></textarea></div>`}
+    function select(id,label,opts){return `<div><label for="${id}">${label}</label><select id="${id}">${opts.map(o=>`<option value="${escapeHtml(o)}">${escapeHtml(o)}</option>`).join('')}</select></div>`}
+    function selectClients(id,label){return `<div><label for="${id}">${label}</label><select id="${id}"><option value="">Select client</option>${clients.map(c=>`<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('')}</select></div>`}
+    function selectPositions(id,label){return `<div><label for="${id}">${label}</label><select id="${id}"><option value="">Select requirement</option>${positions.filter(p=>p.status==='Open').map(p=>`<option value="${p.id}">${escapeHtml(p.clients?.name||'')} - ${escapeHtml(p.title)}</option>`).join('')}</select></div>`}
+    function num(id){ const v=$(id).value; return v===''?null:Number(v); }
+
+    window.refreshData = async()=>{ await loadAll(); renderDashboard(); const active=document.querySelector('.nav .active')?.dataset.tab||'dashboard'; showTab(active); notice('Data refreshed.','ok'); };
+    window.exportCsv = (type)=>{
+      let rows = applications;
+      if(type==='weekly') rows = applications.filter(x=>new Date(x.created_at)>=new Date(startOfWeek()));
+      if(type==='monthly') rows = applications.filter(x=>new Date(x.created_at)>=new Date(startOfMonth()));
+      const cols=['created_at','candidate_name','email','phone','source','client_name','position_title','recruiter_name','status','english_rating','relevant_experience_years','asking_salary','interview_date','remarks'];
+      const csv=[cols.join(',')].concat(rows.map(r=>cols.map(c=>`"${String(r[c]??'').replaceAll('"','""')}"`).join(','))).join('\n');
+      const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`gss-ats-${type}-${todayISO()}.csv`; a.click(); URL.revokeObjectURL(url);
+    };
+
+    init();
+  </script>
+</body>
+</html>
