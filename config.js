@@ -1,4 +1,4 @@
 window.ATS_CONFIG = {
-  supabaseUrl: "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE",
-  supabaseAnonKey: "PASTE_YOUR_SB_PUBLISHABLE_KEY_HERE"
+  supabaseUrl: "https://yourprojectid.supabase.co",
+  supabaseAnonKey: "sb_publishable_your_key_here"
 };
