@@ -1,4 +1,4 @@
 window.ATS_CONFIG = {
-  supabaseUrl: https://paibkfpagyyaowalyqxa.supabase.co/rest/v1/
-  supabaseAnonKey: sb_publishable_PX2gk2DSlQGlloLqfIkdUQ_Bxf5ZioV
+  supabaseUrl: https://gss-ats-static.vercel.app/config.js
+  supabaseAnonKey: "PASTE_YOUR_REAL_SB_PUBLISHABLE_KEY_HERE"
 };
